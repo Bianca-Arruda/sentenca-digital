@@ -566,8 +566,6 @@ function SettingsWindow() {
   );
 }
 
-
-
 function TrashWindow() {
   return (
     <div className="window-content simple-window">
@@ -581,8 +579,9 @@ function TrashWindow() {
   );
 }
 
+
 function getWindowMeta(id: WindowId): Pick<WindowState, 'title' | 'icon'> {
-  const meta: Record<WindowId, { title: string; icon: string }> = {
+  const meta: Partial<Record<WindowId, { title: string; icon: string }>> = {
     dashboard: { title: 'Sentença Digital', icon: '⚖' },
     finalDashboard: { title: 'RELATORIO_FINAL.EXE', icon: '🏁' },
     cases: { title: 'ARQUIVOS_CASOS.EXE', icon: '📁' },
@@ -594,5 +593,6 @@ function getWindowMeta(id: WindowId): Pick<WindowState, 'title' | 'icon'> {
     realCase: { title: 'CASO_REAL.DOC', icon: '📄' },
     trash: { title: 'Lixeira', icon: '🗑' },
   };
-  return meta[id];
+
+  return meta[id] ?? { title: '', icon: '' };
 }
