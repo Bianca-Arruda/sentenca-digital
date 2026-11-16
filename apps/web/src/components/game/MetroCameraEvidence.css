@@ -1,0 +1,1889 @@
+
+.metro-evidence {
+  --metro-bg: #0b1120;
+  --metro-panel: #111b2d;
+  --metro-panel-light: #17243a;
+  --metro-border: rgba(148, 163, 184, 0.16);
+  --metro-cyan: #42d9e8;
+  --metro-text: #e8eef7;
+  --metro-muted: #8b9ab0;
+
+  width: 100%;
+  color: var(--metro-text);
+  font-family: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.metro-evidence * {
+  box-sizing: border-box;
+}
+
+/* CABEÇALHO */
+
+.metro-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.metro-header__identity {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.metro-header__icon {
+  width: 49px;
+  height: 49px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(66, 217, 232, 0.35);
+  background: rgba(66, 217, 232, 0.08);
+  border-radius: 12px;
+  color: var(--metro-cyan);
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.metro-eyebrow {
+  display: block;
+  color: var(--metro-cyan);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.metro-header h2 {
+  margin: 5px 0 3px;
+  font-size: clamp(21px, 3vw, 28px);
+  font-weight: 750;
+  letter-spacing: -0.7px;
+}
+
+.metro-header p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--metro-muted);
+}
+
+.metro-header__status,
+.metro-ai-status {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 12px;
+  border: 1px solid var(--metro-border);
+  border-radius: 7px;
+  background: rgba(17, 27, 45, 0.8);
+  color: #b8c5d6;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.metro-status-dot,
+.metro-rec-dot {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  background: #e35d65;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(227, 93, 101, 0.5);
+}
+
+.metro-status-dot {
+  background: #eab85b;
+  box-shadow: 0 0 9px rgba(234, 184, 91, 0.4);
+}
+
+/* ÁREA PRINCIPAL */
+
+.metro-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(290px, 0.85fr);
+  align-items: stretch;
+  gap: 17px;
+}
+
+.metro-main-column {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* VISUALIZADOR */
+
+.metro-viewer {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--metro-border);
+  border-radius: 12px;
+  background: #080e19;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+}
+
+.metro-viewer__topbar,
+.metro-viewer__footer {
+  min-height: 39px;
+  padding: 0 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  color: #94a5bb;
+  background: #101a2a;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.metro-viewer__camera,
+.metro-viewer__time {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.metro-viewer__separator {
+  color: #475569;
+}
+
+.metro-viewer__time strong {
+  color: #d7e3f1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* =========================================
+   CENA DO METRÔ — FOTOGRAFIA + SVG
+========================================= */
+
+.metro-scene {
+  position: relative;
+  width: 100%;
+  height: 540px;
+  min-height: 400px;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 12px;
+  background: #172735;
+}
+
+.metro-scene__photo {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background-image: url("/images/metro-platform.jpg");
+  background-position: center 53%;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.metro-scene__shade {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(5, 13, 22, 0.28) 0%,
+      rgba(5, 13, 22, 0.12) 40%,
+      rgba(5, 13, 22, 0.48) 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(5, 13, 22, 0.28),
+      transparent 35%,
+      transparent 75%,
+      rgba(5, 13, 22, 0.2)
+    );
+  pointer-events: none;
+}
+
+.metro-scene__illustration {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* Marcadores dos passageiros */
+
+.metro-detection {
+  position: absolute;
+  z-index: 15;
+  top: 32%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 39px;
+  height: 39px;
+  padding: 0;
+  border: 2px solid #50e0bc;
+  border-radius: 50%;
+  color: #50e0bc;
+  background: rgba(10, 30, 39, 0.92);
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  transform: translateX(-50%);
+  box-shadow: 0 0 14px rgba(80, 224, 188, 0.45);
+  transition:
+    opacity 0.2s,
+    transform 0.2s,
+    background 0.2s,
+    box-shadow 0.2s;
+}
+
+.metro-detection--a {
+  left: 29%;
+}
+
+.metro-detection--b {
+  left: 50%;
+  top: 34%;
+}
+
+.metro-detection--c {
+  left: 75%;
+}
+
+.metro-detection:hover {
+  transform: translateX(-50%) scale(1.12);
+}
+
+.metro-detection.is-selected {
+  color: #10232d;
+  background: #f3d35a;
+  border-color: #fff;
+  box-shadow: 0 0 20px rgba(243, 211, 90, 0.65);
+  transform: translateX(-50%) scale(1.13);
+}
+
+/* Modo original: sem marcadores */
+
+.metro-scene--original .metro-detection {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.metro-scene--original .metro-scene__scanline {
+  display: none;
+}
+
+/* Modo de análise da IA */
+
+.metro-scene--analysis .metro-detection {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.metro-scene--analysis .metro-scene__scanline {
+  display: block;
+}
+
+.metro-scene--analysis .metro-scene__shade {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(5, 13, 22, 0.35),
+      rgba(5, 13, 22, 0.18) 45%,
+      rgba(5, 13, 22, 0.58)
+    );
+}
+
+/* Varredura da câmera */
+
+.metro-scene__scanline {
+  position: absolute;
+  z-index: 12;
+  inset: 0;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.18;
+  background: repeating-linear-gradient(
+    180deg,
+    transparent 0,
+    transparent 4px,
+    rgba(80, 224, 188, 0.35) 5px
+  );
+}
+
+/* Identificação da câmera */
+
+.metro-scene__camera-label {
+  position: absolute;
+  z-index: 16;
+  left: 13px;
+  bottom: 12px;
+  display: flex;
+  gap: 13px;
+  color: rgba(240, 248, 250, 0.85);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-shadow: 0 1px 4px #000;
+  pointer-events: none;
+}
+
+/* Responsividade */
+
+@media (max-width: 700px) {
+  .metro-scene {
+    height: 430px;
+    min-height: 360px;
+  }
+
+  .metro-detection {
+    width: 33px;
+    height: 33px;
+    font-size: 9px;
+  }
+
+  .metro-scene__camera-label {
+    gap: 7px;
+    font-size: 7px;
+  }
+}
+
+@media (max-width: 420px) {
+  .metro-scene {
+    height: 360px;
+    min-height: 320px;
+  }
+
+  .metro-scene__photo {
+    background-position: center center;
+  }
+
+  .metro-detection {
+    width: 29px;
+    height: 29px;
+  }
+}
+
+
+/* FERRAMENTAS */
+
+.metro-toolbar {
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  background: var(--metro-panel);
+  border: 1px solid var(--metro-border);
+  border-radius: 9px;
+}
+
+.metro-toolbar__heading {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.metro-toolbar__heading small {
+  color: var(--metro-muted);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.metro-view-switch {
+  display: flex;
+  padding: 4px;
+  gap: 4px;
+  background: #080f1c;
+  border-radius: 7px;
+}
+
+.metro-view-switch button {
+  padding: 9px 12px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: transparent;
+  color: #93a2b6;
+  font-size: 10px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.metro-view-switch button:hover {
+  color: white;
+}
+
+.metro-view-switch button.is-active {
+  color: #72e6ef;
+  background: rgba(66, 217, 232, 0.1);
+  border-color: rgba(66, 217, 232, 0.28);
+}
+
+.metro-switch-icon {
+  margin-right: 5px;
+}
+
+/* REGISTROS */
+
+.metro-passenger-list {
+  padding: 15px;
+  background: var(--metro-panel);
+  border: 1px solid var(--metro-border);
+  border-radius: 9px;
+}
+
+.metro-section-heading {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.metro-section-heading small {
+  color: var(--metro-muted);
+  font-size: 8px;
+}
+
+.metro-passenger-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.metro-passenger-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 11px;
+  text-align: left;
+  border: 1px solid var(--metro-border);
+  border-radius: 7px;
+  background: #0d1727;
+  color: var(--metro-text);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.metro-passenger-card:hover,
+.metro-passenger-card.is-selected {
+  border-color: rgba(66, 217, 232, 0.65);
+  background: rgba(66, 217, 232, 0.07);
+}
+
+.metro-passenger-card__code {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(66, 217, 232, 0.35);
+  border-radius: 7px;
+  color: var(--metro-cyan);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.metro-passenger-card__info {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metro-passenger-card__info strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 9px;
+}
+
+.metro-passenger-card__info small {
+  color: var(--metro-muted);
+  font-size: 9px;
+}
+
+.metro-passenger-card__arrow {
+  margin-left: auto;
+  color: var(--metro-cyan);
+  font-size: 18px;
+}
+
+/* PAINEL LATERAL */
+
+.metro-analysis-panel {
+  min-width: 0;
+  min-height: 100%;
+  overflow: hidden;
+  border: 1px solid var(--metro-border);
+  border-radius: 12px;
+  background: var(--metro-panel);
+}
+
+.metro-empty-state {
+  height: 100%;
+  min-height: 460px;
+  padding: 23px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.metro-empty-icon {
+  width: 54px;
+  height: 54px;
+  margin-bottom: 22px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(66, 217, 232, 0.25);
+  border-radius: 12px;
+  background: rgba(66, 217, 232, 0.07);
+  color: var(--metro-cyan);
+  font-size: 30px;
+}
+
+.metro-empty-state h3 {
+  margin: 10px 0;
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+.metro-empty-state > p {
+  margin: 0 0 24px;
+  color: var(--metro-muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.metro-empty-instruction {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 13px 0;
+  border-top: 1px solid var(--metro-border);
+}
+
+.metro-empty-instruction > span {
+  color: var(--metro-cyan);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.metro-empty-instruction div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metro-empty-instruction strong {
+  font-size: 11px;
+}
+
+.metro-empty-instruction small {
+  color: var(--metro-muted);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+/* FICHA DO PASSAGEIRO */
+
+.metro-passenger-analysis {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+  padding: 18px;
+  animation: metro-appear 0.25s ease-out;
+}
+
+@keyframes metro-appear {
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.metro-panel-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--metro-muted);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.metro-panel-top button {
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--metro-border);
+  border-radius: 6px;
+  background: transparent;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.metro-panel-top button:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.metro-analysis-identity {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.metro-analysis-avatar {
+  width: 49px;
+  height: 49px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(66, 217, 232, 0.45);
+  border-radius: 11px;
+  background: rgba(66, 217, 232, 0.09);
+  color: var(--metro-cyan);
+  font-size: 21px;
+  font-weight: 900;
+}
+
+.metro-analysis-identity h3 {
+  margin: 5px 0;
+  font-size: 15px;
+}
+
+.metro-analysis-identity small {
+  color: var(--metro-muted);
+  font-size: 10px;
+}
+
+.metro-ai-status {
+  justify-content: center;
+  border-color: rgba(234, 184, 91, 0.2);
+  background: rgba(234, 184, 91, 0.06);
+  color: #eac47a;
+  font-size: 9px;
+}
+
+.metro-ai-status .metro-status-dot {
+  width: 7px;
+  height: 7px;
+}
+
+/* DADOS */
+
+.metro-fields-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.metro-fields-heading strong {
+  font-size: 12px;
+}
+
+.metro-fields-heading small {
+  color: var(--metro-muted);
+  font-size: 8px;
+  letter-spacing: 1px;
+}
+
+.metro-data-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.metro-data-card {
+  min-width: 0;
+  min-height: 90px;
+  padding: 11px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+  border: 1px solid var(--metro-border);
+  border-radius: 8px;
+  background: #0c1626;
+}
+
+.metro-data-card__icon {
+  color: var(--metro-cyan);
+  font-size: 15px;
+}
+
+.metro-data-card__label {
+  color: var(--metro-muted);
+  font-size: 9px;
+  line-height: 1.4;
+}
+
+.metro-data-card strong {
+  overflow-wrap: anywhere;
+  color: #e8eef7;
+  font-size: 12px;
+}
+
+/* CONFIANÇA */
+
+.metro-confidence {
+  padding: 13px;
+  border: 1px solid var(--metro-border);
+  border-radius: 8px;
+  background: #0d1727;
+}
+
+.metro-confidence > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.metro-confidence > div:first-child span {
+  color: var(--metro-muted);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+}
+
+.metro-confidence > div:first-child strong {
+  color: var(--metro-cyan);
+  font-size: 14px;
+}
+
+.metro-confidence__track {
+  height: 5px;
+  margin: 10px 0;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #263448;
+}
+
+.metro-confidence__track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #249baa, #55e1e9);
+}
+
+.metro-confidence small {
+  color: var(--metro-muted);
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+/* OBSERVAÇÃO */
+
+.metro-observation {
+  padding: 13px;
+  border: 1px solid rgba(234, 184, 91, 0.25);
+  border-radius: 8px;
+  background: rgba(234, 184, 91, 0.055);
+}
+
+.metro-observation__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #edc878;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.7px;
+}
+
+.metro-observation__title span {
+  width: 19px;
+  height: 19px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(234, 184, 91, 0.15);
+}
+
+.metro-observation p {
+  margin: 10px 0 0;
+  color: #c4ceda;
+  font-size: 10px;
+  line-height: 1.75;
+}
+
+/* ALERTA SOBRE INFERÊNCIAS */
+
+.metro-uncertainty {
+  padding: 13px;
+  border-left: 3px solid var(--metro-cyan);
+  background: rgba(66, 217, 232, 0.065);
+}
+
+.metro-uncertainty strong {
+  color: #70e1e9;
+  font-size: 9px;
+  letter-spacing: 0.6px;
+}
+
+.metro-uncertainty p {
+  margin: 7px 0 0;
+  color: #bac8d7;
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+/* PRÓXIMO PASSAGEIRO */
+
+.metro-next-passenger {
+  width: 100%;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid rgba(66, 217, 232, 0.35);
+  border-radius: 7px;
+  background: rgba(66, 217, 232, 0.09);
+  color: #75e5ed;
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 0.7px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.metro-next-passenger:hover {
+  background: rgba(66, 217, 232, 0.17);
+}
+
+.metro-next-passenger span {
+  font-size: 17px;
+}
+
+/* NOTA INVESTIGATIVA */
+
+.metro-investigation-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  padding: 17px;
+  border: 1px solid rgba(66, 217, 232, 0.22);
+  border-radius: 9px;
+  background: rgba(66, 217, 232, 0.045);
+}
+
+.metro-investigation-note__icon {
+  width: 27px;
+  height: 27px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(66, 217, 232, 0.45);
+  border-radius: 50%;
+  color: var(--metro-cyan);
+  font-weight: 900;
+}
+
+.metro-investigation-note strong {
+  font-size: 12px;
+}
+
+.metro-investigation-note p {
+  margin: 7px 0 0;
+  color: #aab9c9;
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+/* RODAPÉ */
+
+.metro-disclaimer {
+  padding: 14px 0 0;
+  border-top: 1px solid var(--metro-border);
+}
+
+.metro-disclaimer > span {
+  color: var(--metro-muted);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.metro-disclaimer p {
+  margin: 7px 0 0;
+  color: #8292a7;
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 900px) {
+  .metro-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .metro-analysis-panel {
+    min-height: 300px;
+  }
+
+  .metro-empty-state {
+    min-height: 360px;
+  }
+
+  .metro-passenger-analysis {
+    max-width: 650px;
+  }
+}
+
+@media (max-width: 560px) {
+  .metro-header {
+    align-items: flex-start;
+  }
+
+  .metro-header__status {
+    font-size: 8px;
+  }
+
+  .metro-scene {
+    min-height: 220px;
+  }
+
+  .metro-marker {
+    width: 29px;
+    height: 29px;
+    font-size: 10px;
+  }
+
+  .metro-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .metro-view-switch {
+    width: 100%;
+  }
+
+  .metro-view-switch button {
+    flex: 1;
+    padding: 10px 5px;
+  }
+
+  .metro-passenger-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .metro-passenger-card {
+    padding: 10px;
+  }
+
+  .metro-data-card {
+    min-height: 85px;
+  }
+
+  .metro-viewer__topbar,
+  .metro-viewer__footer {
+    padding: 0 8px;
+    font-size: 8px;
+  }
+
+  .metro-scene__camera-label {
+    font-size: 6px;
+  }
+
+  .metro-analysis-identity h3 {
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .metro-evidence *,
+  .metro-evidence *::before,
+  .metro-evidence *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* ==========================================
+   EVOLUÇÃO DA RECONSTRUÇÃO DO METRÔ
+========================================== */
+
+/* TREM AO FUNDO */
+
+.metro-scene__train {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  bottom: 25%;
+  height: 34%;
+  display: flex;
+  overflow: hidden;
+  background: linear-gradient(
+    180deg,
+    #aebbc1 0%,
+    #657783 13%,
+    #263c4c 18%,
+    #172b3c 90%,
+    #101b27 100%
+  );
+  border-top: 3px solid #d4dce0;
+  border-bottom: 5px solid #101a25;
+  box-shadow:
+    0 -5px 15px rgba(0, 0, 0, 0.2),
+    0 7px 15px rgba(0, 0, 0, 0.35);
+}
+
+.metro-train__front {
+  width: 8%;
+  flex-shrink: 0;
+  position: relative;
+  background: linear-gradient(
+    90deg,
+    #536b7b,
+    #9aaab0 50%,
+    #344b5a
+  );
+  border-right: 3px solid #152636;
+}
+
+.metro-train__destination {
+  position: absolute;
+  top: 16%;
+  left: 10%;
+  padding: 3px 5px;
+  background: #172c3a;
+  color: #e8d45b;
+  font-size: 6px;
+  font-weight: 900;
+}
+
+.metro-train__windows {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  gap: 5px;
+  padding: 8px 7px 5px;
+}
+
+.metro-train__window {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      115deg,
+      rgba(255, 255, 255, 0.22),
+      transparent 25%,
+      rgba(13, 31, 46, 0.2) 70%
+    ),
+    linear-gradient(180deg, #263f51, #0d1c2c);
+  border: 3px solid #1b2c3a;
+  border-radius: 5px 5px 1px 1px;
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.55);
+}
+
+.metro-train__reflection {
+  position: absolute;
+  top: -20%;
+  left: 25%;
+  width: 20%;
+  height: 150%;
+  background: rgba(220, 237, 240, 0.12);
+  transform: rotate(25deg);
+}
+
+.metro-train__door {
+  width: 8%;
+  flex-shrink: 0;
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  background: #172a39;
+  border: 2px solid #263b4b;
+  border-radius: 4px 4px 0 0;
+}
+
+.metro-train__door span {
+  flex: 1;
+  background: linear-gradient(
+    180deg,
+    #516b7a,
+    #233b4b
+  );
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.metro-train__lower-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 12%;
+  height: 4px;
+  background: #d5c04f;
+  opacity: 0.9;
+}
+
+/* COLUNAS ESTRUTURAIS */
+
+.metro-scene__columns {
+  position: absolute;
+  z-index: 2;
+  inset: 19% 0 20%;
+  pointer-events: none;
+}
+
+.metro-column {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3.5%;
+  background:
+    linear-gradient(
+      90deg,
+      #172633,
+      #697985 40%,
+      #405361 70%,
+      #172633
+    );
+  box-shadow:
+    4px 0 8px rgba(0, 0, 0, 0.2),
+    inset 2px 0 3px rgba(255, 255, 255, 0.1);
+}
+
+.metro-column--one {
+  left: 37%;
+}
+
+.metro-column--two {
+  left: 62%;
+  width: 2.5%;
+  opacity: 0.8;
+}
+
+.metro-column--three {
+  right: 3%;
+  width: 2%;
+  opacity: 0.7;
+}
+
+/* ILUMINAÇÃO DO TETO */
+
+.metro-scene__lights {
+  position: absolute;
+  z-index: 3;
+  top: 5%;
+  left: 8%;
+  right: 12%;
+  height: 10%;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.metro-scene__lights span {
+  width: 15%;
+  height: 5px;
+  background: #dce6df;
+  border-radius: 50%;
+  box-shadow:
+    0 0 8px rgba(229, 245, 240, 0.7),
+    0 5px 18px rgba(200, 231, 237, 0.35);
+}
+
+/* CÂMERA DE VIGILÂNCIA */
+
+.metro-cctv {
+  position: absolute;
+  z-index: 12;
+  top: 16%;
+  left: 17%;
+  width: 38px;
+  height: 28px;
+  transform: rotate(-12deg);
+}
+
+.metro-cctv__mount {
+  position: absolute;
+  width: 4px;
+  height: 12px;
+  left: 12px;
+  top: -8px;
+  background: #111e29;
+}
+
+.metro-cctv__body {
+  position: absolute;
+  left: 2px;
+  top: 0;
+  width: 27px;
+  height: 15px;
+  background: linear-gradient(
+    180deg,
+    #d2d9d9,
+    #667983 60%,
+    #253744
+  );
+  border-radius: 4px 8px 8px 4px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
+}
+
+.metro-cctv__body span {
+  position: absolute;
+  left: 4px;
+  top: 3px;
+  width: 4px;
+  height: 4px;
+  background: #e44f59;
+  border-radius: 50%;
+  box-shadow: 0 0 5px #e44f59;
+}
+
+.metro-cctv__lens {
+  position: absolute;
+  top: 4px;
+  right: 0;
+  width: 10px;
+  height: 9px;
+  background: #0a1723;
+  border: 2px solid #748a95;
+  border-radius: 50%;
+}
+
+/* TRILHOS E PROFUNDIDADE */
+
+.metro-scene__track {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  bottom: 12%;
+  height: 13%;
+  overflow: hidden;
+  background: linear-gradient(
+    180deg,
+    #17222c,
+    #303a41 50%,
+    #131c26
+  );
+}
+
+.metro-scene__track::before,
+.metro-scene__track::after {
+  content: "";
+  position: absolute;
+  height: 3px;
+  left: 0;
+  right: 0;
+  background: linear-gradient(
+    90deg,
+    #a3a9a9,
+    #52636d,
+    #a3a9a9
+  );
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.metro-scene__track::before {
+  top: 28%;
+}
+
+.metro-scene__track::after {
+  bottom: 22%;
+}
+
+.metro-scene__track span {
+  position: relative;
+  display: inline-block;
+  width: 10%;
+  height: 100%;
+  margin-right: 5%;
+  border-left: 2px solid rgba(164, 177, 179, 0.25);
+  border-right: 2px solid rgba(164, 177, 179, 0.25);
+}
+
+/* MAIS DETALHES NOS PASSAGEIROS */
+
+.metro-scene__person {
+  transform-origin: bottom center;
+}
+
+.metro-scene__person--a {
+  transform: scaleX(0.95);
+}
+
+.metro-scene__person--b {
+  transform: scaleX(1.05);
+}
+
+.metro-scene__person--c {
+  transform: scaleX(0.92);
+}
+
+/* CABELOS */
+
+.metro-person__head {
+  position: relative;
+}
+
+.metro-person__head::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: 105%;
+  height: 35%;
+  background: #282a2b;
+  border-radius: 50% 50% 20% 20%;
+}
+
+.metro-scene__person--b .metro-person__head::before {
+  background: #45413a;
+}
+
+.metro-scene__person--c .metro-person__head::before {
+  background: #292a32;
+}
+
+/* BRAÇOS */
+
+.metro-person__body {
+  position: relative;
+}
+
+.metro-person__body::before,
+.metro-person__body::after {
+  content: "";
+  position: absolute;
+  top: 7%;
+  width: 20%;
+  height: 67%;
+  border-radius: 8px;
+  background: inherit;
+  filter: brightness(0.85);
+}
+
+.metro-person__body::before {
+  left: -12%;
+  transform: rotate(8deg);
+}
+
+.metro-person__body::after {
+  right: -12%;
+  transform: rotate(-8deg);
+}
+
+/* VARIAÇÃO DE POSTURA */
+
+.metro-scene__person--a .metro-person__body::after {
+  transform: rotate(-24deg);
+  transform-origin: top center;
+}
+
+.metro-scene__person--b .metro-person__body::before {
+  transform: rotate(17deg);
+}
+
+.metro-scene__person--c .metro-person__body::after {
+  transform: rotate(-15deg);
+}
+
+/* DIFERENCIAÇÃO DAS SILHUETAS */
+
+.metro-scene__person--a .metro-person__head {
+  background: linear-gradient(90deg, #85634f, #c39878);
+}
+
+.metro-scene__person--b .metro-person__head {
+  background: linear-gradient(90deg, #9b795f, #d1aa8b);
+}
+
+.metro-scene__person--c .metro-person__head {
+  background: linear-gradient(90deg, #755746, #bb9070);
+}
+
+/* REALCE DA CÂMERA NO MODO DE ANÁLISE */
+
+.metro-scene--analysis .metro-cctv__body span {
+  animation: metro-camera-recording 1.5s infinite;
+}
+
+@keyframes metro-camera-recording {
+  0%, 100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.25;
+  }
+}
+
+/* AJUSTES PARA TELAS MENORES */
+
+@media (max-width: 560px) {
+  .metro-scene__columns {
+    opacity: 0.7;
+  }
+
+  .metro-cctv {
+    transform: scale(0.8) rotate(-12deg);
+    transform-origin: top left;
+  }
+
+  .metro-scene__train {
+    height: 30%;
+  }
+
+  .metro-scene__lights span {
+    height: 3px;
+  }
+}
+
+.metro-scene__structure {
+  z-index: 2;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0 8%,
+      rgba(9, 20, 33, 0.35) 8.3% 9%,
+      transparent 9.3%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(38, 59, 75, 0.42),
+      rgba(64, 81, 93, 0.35) 70%,
+      rgba(41, 62, 77, 0.45)
+    );
+}
+
+.metro-scene-wrapper {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.metro-scene-wrapper .metro-scene {
+  width: 100%;
+  margin: 0;
+}
+
+/* =========================================
+   CONTROLES DE VISUALIZAÇÃO
+========================================= */
+
+.analysis-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 16px 18px;
+  background: #172735;
+  border: 1px solid #344957;
+  border-top: 0;
+  border-radius: 0 0 10px 10px;
+  color: #e7edf0;
+}
+
+.analysis-controls__description {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.analysis-controls__label {
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: #8da2ad;
+}
+
+.analysis-controls__description strong {
+  font-size: 13px;
+}
+
+.analysis-controls__buttons {
+  display: flex;
+  gap: 5px;
+  padding: 4px;
+  background: #0d1b27;
+  border-radius: 7px;
+}
+
+.analysis-controls__buttons button {
+  border: 0;
+  padding: 9px 13px;
+  border-radius: 5px;
+  color: #a8b7c0;
+  background: transparent;
+  cursor: pointer;
+  font-size: 11px;
+  transition: 0.2s;
+}
+
+.analysis-controls__buttons button.active {
+  color: #10232d;
+  background: #55d9b7;
+  font-weight: 700;
+}
+
+/* =========================================
+   MODO ORIGINAL E MODO DE ANÁLISE
+========================================= */
+
+.metro-scene--original .metro-detection {
+  opacity: 0.75;
+}
+
+.metro-scene--analysis .metro-detection {
+  opacity: 1;
+  border-color: #50e0bc;
+  box-shadow: 0 0 15px rgba(80, 224, 188, 0.5);
+}
+
+.metro-scene--analysis .metro-person {
+  filter: saturate(0.85);
+}
+
+.metro-scene--analysis .metro-person::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border: 1px solid rgba(80, 224, 188, 0.8);
+  border-radius: 5px;
+  pointer-events: none;
+}
+
+.metro-detection.is-selected {
+  color: #10232d;
+  background: #50e0bc;
+  border-color: white;
+  transform: scale(1.12);
+}
+
+/* =========================================
+   PAINEL DE ANÁLISE DO PASSAGEIRO
+========================================= */
+
+.passenger-analysis {
+  margin-top: 18px;
+  padding: 22px;
+  color: #e7edf0;
+  background: #172735;
+  border: 1px solid #344957;
+  border-radius: 10px;
+  animation: passengerPanelEnter 0.25s ease;
+}
+
+@keyframes passengerPanelEnter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.passenger-analysis__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 22px;
+}
+
+.passenger-analysis__eyebrow {
+  color: #50d9b6;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+}
+
+.passenger-analysis__header h3 {
+  margin: 7px 0 4px;
+  font-size: 21px;
+  color: #f1f5f6;
+}
+
+.passenger-analysis__header p {
+  margin: 0;
+  color: #91a4ae;
+  font-size: 12px;
+}
+
+.passenger-analysis__close {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #435965;
+  border-radius: 6px;
+  color: #c4d1d7;
+  background: #203644;
+  font-size: 21px;
+  cursor: pointer;
+}
+
+.passenger-analysis__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.passenger-data {
+  min-height: 75px;
+  padding: 13px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 9px;
+  background: #203442;
+  border: 1px solid #344d5b;
+  border-radius: 7px;
+  min-width: 0;
+}
+
+.passenger-data span {
+  color: #91a7b1;
+  font-size: 10px;
+}
+
+.passenger-data strong {
+  color: #e8f0f2;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.passenger-analysis__interpretation,
+.passenger-analysis__warning {
+  margin-top: 15px;
+  padding: 15px;
+  border-radius: 7px;
+}
+
+.passenger-analysis__interpretation {
+  background: rgba(55, 177, 151, 0.09);
+  border: 1px solid rgba(80, 224, 188, 0.25);
+}
+
+.passenger-analysis__interpretation > span {
+  color: #50d9b6;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.passenger-analysis__interpretation p,
+.passenger-analysis__warning p {
+  margin: 9px 0 0;
+  font-size: 12px;
+  line-height: 1.7;
+  color: #d0dce1;
+}
+
+.passenger-analysis__warning {
+  background: rgba(224, 173, 76, 0.08);
+  border: 1px solid rgba(224, 173, 76, 0.28);
+}
+
+.passenger-analysis__warning > span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #e9bd68;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.warning-symbol {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  border: 1px solid #e9bd68;
+  border-radius: 50%;
+  font-size: 11px;
+}
+
+/* =========================================
+   RESPONSIVIDADE DO PAINEL
+========================================= */
+
+@media (max-width: 700px) {
+  .analysis-controls {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .passenger-analysis {
+    padding: 15px;
+  }
+
+  .passenger-analysis__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 420px) {
+  .passenger-analysis__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .analysis-controls__buttons {
+    width: 100%;
+  }
+
+  .analysis-controls__buttons button {
+    flex: 1;
+  }
+}
+
+/* Visualização original */
+.metro-scene--original .metro-detection {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.metro-scene--original .metro-scene__scanline {
+  display: none;
+}
+
+/* Visualização da IA */
+.metro-scene--analysis .metro-detection {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.metro-scene--analysis .metro-scene__scanline {
+  display: block;
+}
+
+.metro-scene--analysis .metro-person {
+  filter: saturate(0.8);
+}
+
+.metro-scene--analysis .metro-person::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border: 1px solid rgba(80, 224, 188, 0.8);
+  border-radius: 5px;
+  pointer-events: none;
+}
+
+.metro-detection.is-selected {
+  color: #10232d;
+  background: #50e0bc;
+  border-color: white;
+  transform: scale(1.12);
+}
+
+
+/* A cena é a referência de posicionamento */
+.metro-scene {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Os passageiros ocupam uma camada própria */
+.metro-passengers {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* Marcadores acima dos passageiros */
+.metro-detection {
+  position: absolute;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 2px solid #50e0bc;
+  border-radius: 50%;
+  color: #50e0bc;
+  background: rgba(13, 30, 40, 0.92);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s, background 0.2s;
+}
+
+/* Posição relativa aos passageiros */
+.metro-detection--a {
+  left: calc(25% + 35px);
+  bottom: 63%;
+}
+
+.metro-detection--b {
+  left: calc(47% + 35px);
+  bottom: 63%;
+}
+
+.metro-detection--c {
+  left: calc(69% + 35px);
+  bottom: 63%;
+}
+
+/* Ocultar marcadores na imagem original */
+.metro-scene--original .metro-detection {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Mostrar marcadores na análise */
+.metro-scene--analysis .metro-detection {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Passageiro selecionado */
+.metro-detection.is-selected {
+  color: #10232d;
+  background: #50e0bc;
+  border-color: #ffffff;
+  transform: scale(1.12);
+}
+
+/* Efeito de detecção */
+.metro-scene--analysis .metro-person::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border: 1px solid rgba(80, 224, 188, 0.8);
+  border-radius: 5px;
+  pointer-events: none;
+}
+
+/* Scanline */
+.metro-scene--original .metro-scene__scanline {
+  display: none;
+}
+
+.metro-scene--analysis .metro-scene__scanline {
+  display: block;
+  pointer-events: none;
+}

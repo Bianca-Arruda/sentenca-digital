@@ -1,0 +1,258 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../apps/api/node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  PLAYER
+  ADMIN
+}
+
+enum CaseStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum CaseKind {
+  JUDICIAL
+  REGULATORY
+  CORPORATE_INCIDENT
+}
+
+enum EvidenceType {
+  DOCUMENT
+  CONVERSATION
+  POLICY
+  RECORD
+  IMAGE
+  REPORT
+  OTHER
+}
+
+enum EvidenceViewer {
+  DOCUMENT
+  EMAIL
+  TERMINAL
+  BROWSER
+  IMAGE
+  GENERIC
+}
+
+
+enum AchievementStatus {
+  ACTIVE
+  HIDDEN
+}
+
+enum PlayerEventType {
+  CASE_STARTED
+  DECISION_REGISTERED
+  CASE_UNLOCKED
+  MILESTONE
+  ACHIEVEMENT_UNLOCKED
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  userId    String   @db.Uuid
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model User {
+  id              String           @id @default(uuid()) @db.Uuid
+  name            String
+  email           String           @unique
+  passwordHash    String
+  role            UserRole         @default(PLAYER)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  progress        UserProgress?
+  userCases       UserCase[]
+  decisions       UserDecision[]
+  achievements    UserAchievement[]
+  events          PlayerEvent[]
+  passwordResetTokens PasswordResetToken[]
+}
+
+model Case {
+  id              String           @id @default(uuid()) @db.Uuid
+  code            String           @unique
+  title           String
+  guideMessage    String?
+  description     String
+  country         String
+  countryCode     String
+  year            Int
+  category        String
+  kind            CaseKind         @default(JUDICIAL)
+  context         String
+  decisionQuestion String @default("Qual decisão você tomaria diante das evidências apresentadas?")
+  realOutcome     String
+  sourceUrl       String
+  sourceTitle     String?
+  latitude        Decimal?         @db.Decimal(9, 6)
+  longitude       Decimal?         @db.Decimal(9, 6)
+  status          CaseStatus       @default(DRAFT)
+  order           Int              @unique
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  evidence        Evidence[]
+  decisionOptions DecisionOption[]
+  userCases       UserCase[]
+  decisions       UserDecision[]
+  events          PlayerEvent[]
+
+  @@index([status, order])
+  @@index([countryCode])
+  @@index([category])
+}
+
+model Evidence {
+  id          String       @id @default(uuid()) @db.Uuid
+  caseId      String       @db.Uuid
+  title       String
+  description String
+  type        EvidenceType @default(DOCUMENT)
+  content     String
+  fileUrl     String?
+  hiddenClue  String?
+  sortOrder   Int          @default(0)
+
+  viewer      EvidenceViewer @default(GENERIC)
+  metadata    Json?
+  mimeType    String?
+  fileName    String?
+  
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  
+  case        Case         @relation(fields: [caseId], references: [id], onDelete: Cascade)
+
+  @@index([caseId, sortOrder])
+}
+
+model DecisionOption {
+  id                   String @id @default(uuid()) @db.Uuid
+  caseId               String @db.Uuid
+  title                String
+  description          String
+  consequence          String?
+  newsHeadline         String?
+  responsibilityImpact Int
+  adoptionImpact       Int
+  trustImpact          Int
+  sortOrder            Int @default(0)
+
+  case                 Case @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  decisions            UserDecision[]
+
+  @@unique([caseId, sortOrder])
+}
+
+model UserCase {
+  id            String    @id @default(uuid()) @db.Uuid
+  userId        String    @db.Uuid
+  caseId        String    @db.Uuid
+  startedAt     DateTime  @default(now())
+  completedAt   DateTime?
+  discoveredAt  DateTime?
+  isCompleted   Boolean   @default(false)
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  case          Case      @relation(fields: [caseId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, caseId])
+  @@index([userId, isCompleted])
+}
+
+model UserDecision {
+  id               String         @id @default(uuid()) @db.Uuid
+  userId           String         @db.Uuid
+  caseId           String         @db.Uuid
+  decisionOptionId String         @db.Uuid
+  decidedAt        DateTime       @default(now())
+  responsibilityBefore Int
+  responsibilityAfter  Int
+  adoptionBefore       Int
+  adoptionAfter        Int
+  trustBefore          Int
+  trustAfter           Int
+  user               User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  case               Case           @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  decisionOption     DecisionOption @relation(fields: [decisionOptionId], references: [id], onDelete: Restrict)
+
+  @@unique([userId, caseId])
+  @@index([userId, decidedAt])
+}
+
+model Achievement {
+  id          String            @id @default(uuid()) @db.Uuid
+  code        String            @unique
+  title       String
+  description String
+  icon        String?
+  status      AchievementStatus @default(ACTIVE)
+  sortOrder   Int               @default(0)
+  createdAt   DateTime          @default(now())
+  users       UserAchievement[]
+}
+
+model UserAchievement {
+  id            String      @id @default(uuid()) @db.Uuid
+  userId        String      @db.Uuid
+  achievementId String      @db.Uuid
+  unlockedAt    DateTime    @default(now())
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievement   Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, achievementId])
+}
+
+model PlayerEvent {
+  id        String          @id @default(uuid()) @db.Uuid
+  userId    String          @db.Uuid
+  caseId    String?         @db.Uuid
+  type      PlayerEventType
+  title     String
+  message   String
+  createdAt DateTime        @default(now())
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  case      Case?           @relation(fields: [caseId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+  @@index([userId, type, createdAt])
+}
+
+model UserProgress {
+  id                  String         @id @default(uuid()) @db.Uuid
+  userId              String         @unique @db.Uuid
+  currentCaseOrder    Int            @default(1)
+  completedCases      Int            @default(0)
+  discoveredCases     Int            @default(0)
+  progressPercent     Int            @default(0)
+  updatedAt           DateTime       @updatedAt
+  user                User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  societyMetrics      SocietyMetrics?
+}
+
+model SocietyMetrics {
+  id                   String       @id @default(uuid()) @db.Uuid
+  userProgressId       String       @unique @db.Uuid
+  responsibility       Int          @default(50)
+  aiAdoption           Int          @default(50)
+  publicTrust          Int          @default(50)
+  updatedAt            DateTime     @updatedAt
+  userProgress         UserProgress @relation(fields: [userProgressId], references: [id], onDelete: Cascade)
+}
