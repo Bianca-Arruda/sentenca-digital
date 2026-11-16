@@ -525,6 +525,20 @@ function renderWindow(
   }
 }
 
+function ComputerWindow() {
+  return (
+    <div className="window-content simple-window">
+      <div className="program-menubar">
+        <span>Arquivo</span>
+        <span>Exibir</span>
+      </div>
+
+      <h2>MEU COMPUTADOR</h2>
+
+      <p>Ambiente virtual do Sentença Digital.</p>
+    </div>
+  );
+}
 
 function SettingsWindow() {
   return (
