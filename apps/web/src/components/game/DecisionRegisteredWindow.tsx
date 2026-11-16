@@ -48,12 +48,10 @@ export function DecisionRegisteredWindow({ result, onOpenRealCase }: { result: D
 
 function Metric({
   label,
-  description,
   value,
   change,
 }: {
   label: string;
-  description: string;
   value: number;
   change: number;
 }) {
@@ -69,7 +67,6 @@ function Metric({
           {sign}{change}
         </small>
       </strong>
-      <p className="metric-description">{description}</p>
     </div>
   );
 }
