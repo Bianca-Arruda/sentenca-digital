@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc -p tsconfig.json",
+    "build": "prisma generate --schema=../../prisma/schema.prisma && tsc -p tsconfig.json",
     "start": "node dist/server.js",
     "prisma:generate": "prisma generate --schema=../../prisma/schema.prisma",
     "prisma:migrate": "prisma migrate dev --schema=../../prisma/schema.prisma",
@@ -32,5 +32,10 @@
     "prisma": "^6.19.3",
     "tsx": "^4.20.5",
     "typescript": "^5.9.2"
+  },
+  "allowScripts": {
+    "@prisma/client": true,
+    "@prisma/engines": true,
+    "prisma": true
   }
 }
